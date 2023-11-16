@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/network_caller.dart';
-import 'package:task_manager/data/network_response.dart';
+import 'package:task_manager/data/network_caller/network_caller.dart';
+import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utility/urls.dart';
 import 'package:task_manager/ui/widgets/body_background.dart';
 

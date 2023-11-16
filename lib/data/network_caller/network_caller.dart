@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart';
-import 'package:task_manager/data/network_response.dart';
+import 'package:task_manager/data/network_caller/network_response.dart';
 
 class NetworkCaller {
   Future<NetworkResponse> postRequest(String url,
