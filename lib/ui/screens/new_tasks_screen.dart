@@ -36,19 +36,19 @@ class _NewTasksScreenState extends State<NewTasksScreen> {
                   child: Row(
                     children: [
                       SummaryCard(
-                        count: '92',
+                        count: '50',
                         title: 'New',
                       ),
                       SummaryCard(
-                        count: '92',
+                        count: '30',
                         title: 'In progress',
                       ),
                       SummaryCard(
-                        count: '92',
+                        count: '12',
                         title: 'Completed',
                       ),
                       SummaryCard(
-                        count: '92',
+                        count: '18',
                         title: 'Cancelled',
                       ),
                     ],
