@@ -150,10 +150,10 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {});
     }
     NetworkResponse response =
-        await NetworkCaller().postRequest(Urls.login, body: {
+    await NetworkCaller().postRequest(Urls.login, body: {
       "email": _emailTEController.text.trim(),
       "password": _passwordTEController.text,
-    });
+    }, isLogin: true);
     _loginProgress = false;
     if (mounted) {
       setState(() {});

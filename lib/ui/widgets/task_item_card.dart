@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/task.dart';
+
 class TaskItemCard extends StatelessWidget {
-
-
-
   const TaskItemCard({
     super.key,
+    required this.task,
   });
+
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -17,27 +19,35 @@ class TaskItemCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Title will be here', style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500
-
-            ),),
-            Text('Description'),
-            Text('Date: 12-12-2020'),
+            Text(
+              task.title ?? '',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            Text(
+              task.description ?? '',
+            ),
+            Text('Date: ${task.createdDate}'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Chip(label: Text('New', style: TextStyle(color: Colors.white),), backgroundColor: Colors.blue,),
+                Chip(
+                  label: Text(
+                    task.status ?? 'New',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.blue,
+                ),
                 Wrap(
                   children: [
-                    IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever_outlined)),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.edit))
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.delete_forever_outlined)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit))
                   ],
                 )
               ],
             )
           ],
-
         ),
       ),
     );
