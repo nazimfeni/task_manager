@@ -18,7 +18,28 @@ class NewTasksScreen extends StatefulWidget {
 
 class _NewTasksScreenState extends State<NewTasksScreen> {
   bool getNewTaskInProgress = false;
+  bool getTaskCountSummaryInProgress = false;
+
+
   TaskListModel taskListModel = TaskListModel();
+
+  Future<void> getTaskCountSummaryList() async {
+    bool getNewTaskInProgress = true;
+
+
+    if (mounted) {
+      setState(() {});
+    }
+    final NetworkResponse response =
+        await NetworkCaller().getRequest(Urls.getNewTasks);
+    if (response.isSuccess) {
+      taskListModel = TaskListModel.fromJson(response.jsonResponse);
+    }
+    getNewTaskInProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   Future<void> getNewTaskList() async {
     bool getNewTaskInProgress = true;
@@ -26,7 +47,7 @@ class _NewTasksScreenState extends State<NewTasksScreen> {
       setState(() {});
     }
     final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.getNewTasks);
+    await NetworkCaller().getRequest(Urls.getNewTasks);
     if (response.isSuccess) {
       taskListModel = TaskListModel.fromJson(response.jsonResponse);
     }
