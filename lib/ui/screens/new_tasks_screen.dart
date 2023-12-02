@@ -110,14 +110,26 @@ class _NewTasksScreenState extends State<NewTasksScreen> {
                   replacement:
                       const Center(child: const CircularProgressIndicator()),
                   child: taskListModel.taskList != null
-                      ? ListView.builder(
-                          itemCount: taskListModel.taskList!.length,
-                          itemBuilder: (context, index) {
-                            return TaskItemCard(
-                              task: taskListModel.taskList![index],
-                            );
-                          },
-                        )
+                      ? RefreshIndicator(
+                        onRefresh: getNewTaskList,
+                        child: ListView.builder(
+                            itemCount: taskListModel.taskList!.length,
+                            itemBuilder: (context, index) {
+                              return TaskItemCard(
+                                task: taskListModel.taskList![index],
+                                onStatusChange: (){
+                                  getNewTaskList();
+                                },
+                                showProgress: (inProgress) {
+                                  getNewTaskInProgress = inProgress;
+                                  if(mounted){
+                                    setState(() {});
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                      )
                       : const Center(child: Text('No tasks available')),
                 ),
               ),
