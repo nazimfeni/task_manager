@@ -1,6 +1,8 @@
 # task_manager
 
-A new Flutter project.
+# A new Flutter project.
+
+
 <img src="https://github.com/nazimfeni/task_manager/blob/master/screenshot/SignupScreen.png" width="200" height="400" alt="Potrait image">
 <img src="https://github.com/nazimfeni/task_manager/blob/master/screenshot/SignupScreen.png" width="200" height="400" alt="Potrait image">
 <img src="https://github.com/nazimfeni/task_manager/blob/master/screenshot/login_screen.png" width="200" height="400" alt="Potrait image">
