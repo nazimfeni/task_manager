@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/ui/widgets/body_background.dart';
@@ -6,6 +7,7 @@ import 'package:task_manager/ui/widgets/profile_summary_card.dart';
 import 'package:task_manager/ui/widgets/snack_message.dart';
 
 import '../../data/utility/urls.dart';
+import '../controllers/new_task_controller.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({Key? key}) : super(key: key);
@@ -126,6 +128,7 @@ if(response.isSuccess){
 
   _subjectTEController.clear();
   _descriptionTEController.clear();
+  Get.find<NewTaskController>().getNewTaskList();
 
   if(mounted){
     showSnackMessage(context, 'New task added!');

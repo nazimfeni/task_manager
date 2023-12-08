@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:task_manager/app.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
@@ -13,7 +14,7 @@ class NetworkCaller {
     try {
       log(url);
       log(body.toString());
-      final Response response =
+      final response =
       await post(Uri.parse(url), body: jsonEncode(body), headers: {
         'Content-type': 'Application/json',
         'token': AuthController.token.toString(),
@@ -50,7 +51,7 @@ class NetworkCaller {
     try {
       log(url);
 
-      final Response response =
+      final response =
       await get(Uri.parse(url),  headers: {
         'Content-type': 'Application/json',
         'token': AuthController.token.toString(),
@@ -79,9 +80,6 @@ class NetworkCaller {
       return NetworkResponse(isSuccess: false, errorMessage: e.toString());
     }
   }
-
-
-
 
 
   Future<void> backToLogin()  async{

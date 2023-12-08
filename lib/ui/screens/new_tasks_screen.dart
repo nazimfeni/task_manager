@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/models/task_count.dart';
 import 'package:task_manager/data/models/task_count_summary_list_model.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
+import 'package:task_manager/ui/controllers/new_task_controller.dart';
 import 'package:task_manager/ui/screens/add_new_task_screen.dart';
 import 'package:task_manager/ui/widgets/task_item_card.dart';
 
@@ -19,10 +21,8 @@ class NewTasksScreen extends StatefulWidget {
 }
 
 class _NewTasksScreenState extends State<NewTasksScreen> {
-  bool getNewTaskInProgress = false;
   bool getTaskCountSummaryInProgress = false;
 
-  TaskListModel taskListModel = TaskListModel();
   TaskCountSummaryListModel taskCountSummaryListModel =
       TaskCountSummaryListModel();
 
@@ -44,38 +44,29 @@ class _NewTasksScreenState extends State<NewTasksScreen> {
     }
   }
 
-  Future<void> getNewTaskList() async {
-    bool getNewTaskInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.getNewTasks);
-    if (response.isSuccess) {
-      taskListModel = TaskListModel.fromJson(response.jsonResponse);
-    }
-    getNewTaskInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
-  }
+
 
   @override
   void initState() {
     super.initState();
+    Get.find<NewTaskController>().getNewTaskList();
     getTaskCountSummaryList();
-    getNewTaskList();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
+          onPressed: () async{
+         final response =  await Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
               return AddNewTaskScreen();
             }));
+
+         if(response != null && response == true){
+         Get.find<NewTaskController>().getNewTaskList();
+         getTaskCountSummaryList();}
           },
           child: const Icon(Icons.add),
         ),
@@ -105,32 +96,33 @@ class _NewTasksScreenState extends State<NewTasksScreen> {
               ),
 
               Expanded(
-                child: Visibility(
-                  visible: getNewTaskInProgress == false,
-                  replacement:
-                      const Center(child: const CircularProgressIndicator()),
-                  child: taskListModel.taskList != null
-                      ? RefreshIndicator(
-                        onRefresh: getNewTaskList,
-                        child: ListView.builder(
-                            itemCount: taskListModel.taskList!.length,
-                            itemBuilder: (context, index) {
-                              return TaskItemCard(
-                                task: taskListModel.taskList![index],
-                                onStatusChange: (){
-                                  getNewTaskList();
+                child: GetBuilder<NewTaskController>(
+                  builder: (newTaskController) {
+                    return Visibility(
+                      visible: newTaskController.getNewTaskInProgress == false,
+                      replacement:
+                          const Center(child: const CircularProgressIndicator()),
+                      child: newTaskController.taskListModel.taskList != null
+                          ? RefreshIndicator(
+                            onRefresh: () => newTaskController.getNewTaskList(),
+                            child: ListView.builder(
+                                itemCount: newTaskController.taskListModel.taskList!.length,
+                                itemBuilder: (context, index) {
+                                  return TaskItemCard(
+                                    task: newTaskController.taskListModel.taskList![index],
+                                    onStatusChange: (){
+                                      newTaskController.getNewTaskList();
+                                    },
+                                    showProgress: (inProgress) {
+
+                                    },
+                                  );
                                 },
-                                showProgress: (inProgress) {
-                                  getNewTaskInProgress = inProgress;
-                                  if(mounted){
-                                    setState(() {});
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                      )
-                      : const Center(child: Text('No tasks available')),
+                              ),
+                          )
+                          : const Center(child: Text('No tasks available')),
+                    );
+                  }
                 ),
               ),
             ],
